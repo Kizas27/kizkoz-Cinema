@@ -5,8 +5,8 @@
 
 `Django, django-paypal`
 
-### Progarmų įrašymas.
-Reikia naudoti terminalą:
+### Programų įrašymas.
+Reikia naudotis terminalu:
 
 `python -m venv venv`
 
