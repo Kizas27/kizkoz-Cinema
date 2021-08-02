@@ -3,6 +3,8 @@
 
 reikalingos programos:
 
+`Django, django-paypal`
+
 `python -m venv venv`
 
 `source venv/bin/activate`
