@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block header %}
+    <!-- Masthead-->
+    <header class="masthead_test">
+    </header>
+{% endblock %}
+{% block content %}
+
+    {% if session.date > time_now %}
+
+        {% regroup session_tickets by seat.row_id as seats_list %}
+
+        <div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-sm-6 mb-4" id="checkboxes">
+                <h1 class="section-heading text-center">Screen</h1>
+                {% for tickets in seats_list %}
+                    <table class="table">
+                        <tr>
+                            <td>{{ tickets.grouper }} eile:</td>
+                            {% for ticket in tickets.list %}
+                                <td class="checkbox">
+                                    {% if ticket.sold == False %}
+                                        <input type="checkbox" class="hidden" onclick="updateCost(this)"
+                                               id="{{ ticket.id }}"
+                                               value="{{ ticket.price }}">
+                                        <label for="{{ ticket.id }}"><i class="fas fa-chair"></i></label>
+
+                                    {% else %}
+                                        <!--                    Cia atsispindi jeigu nupirktas bilietas-->
+                                        <input type="checkbox" disabled="disabled" class="hidden">
+                                        <label for="{{ ticket.id }}"> <i class="fas fa-chair"></i></label>
+                                        </td>
+                                    {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </table>
+                {% endfor %}
+            </div>
+
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <table class="table-cost">
+                    <tr>
+                        <td><label for="total-cost">Mokėti:</label></td>
+                        <td><input type="text" id="total-cost" value="0.00" readonly="readonly"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">Įveskite el. paštą:</label></td>
+                        <td><input type="email" id="email" name="email"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" class="btn btn-primary btn-l text-uppercase"
+                                   id="order_tickets" onclick="order()" value="Order Tickets"></td>
+                        <td></td>
+
+                    </tr>
+                </table>
+                <p id="paypal"></p>
+            </div>
+        </div>
+    {% else %}
+        <div>
+            <h1 class="section-heading text-center">Ši sesija pasibaigusi</h1>
+        </div>
+
+    {% endif %}
+    <script>
+        tickets = []
+
+        function updateCost(e) {
+            let total = document.getElementById("total-cost")
+            // include current value in total-cost block, use parseFloat method to convert string to number
+            var val = parseFloat(total.value);
+
+            ticket_price = parseFloat(e.value.toString().replace(',', '.'))
+            console.log("ticket price: ", ticket_price)
+            // Add the checkbox value to total value if checkbox is checked
+            if (e.checked) {
+                console.log("add ticket id: ", e.id)
+                val += ticket_price;
+                tickets.push(e.id)
+            } else {
+
+                val -= ticket_price;
+                for (i = 0; i < tickets.length; i++) {
+                    if (tickets[i] === e.id) {
+                        tickets.splice(i, 1)
+                        console.log("Remove ticket id: ", e.id)
+                    }
+                }
+            }
+            console.log(tickets)
+
+            // update total-cost value with latest value
+            total.value = val.toFixed(2)
+        }
+
+        function order() {
+            var mail = document.getElementById('email')
+            var email = mail.value
+            console.log(email)
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/payment_processing');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}")
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    document.getElementById("paypal").innerHTML = xhr.responseText
+                }
+            };
+            xhr.send(JSON.stringify({
+                "data": tickets,
+                "email": email
+            }));
+        }
+
+    </script>
+
+{% endblock %}

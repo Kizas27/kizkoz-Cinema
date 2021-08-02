@@ -1,0 +1,12 @@
+{% autoescape off %}
+    Jūs gaunate šį laišką, nes norite prisiregistruoti KizKoz Cinema svetainėje.
+
+    Prašome eiti į šį puslapį ir patvirtinti jūsų el. paštą:
+
+    {{ protocol }}://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+    Dėkui, kad naudojatės mūsų tinklalapiu!
+
+    KizKoz Cinema komanda
+
+{% endautoescape %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <!-- Masthead-->
+    <header class="masthead_test">
+    </header>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <table>{{ form }}</table>
+        <input type="submit" value="Patvirtinti" class="btn btn-primary">
+    </form>
+{% endblock %}

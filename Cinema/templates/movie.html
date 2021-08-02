@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <!-- Masthead-->
+    <header class="masthead_test">
+    </header>
+{% endblock %}
+
+{% block content %}
+    <title>KizKozCinema Movie</title>
+    <div class="row">
+        <div class="col-lg-3 col-sm-3">
+            <img class="img-thumbnail" src="{{ movie.image.url }}" alt=""/>
+        </div>
+
+
+        <div class="col-lg-8 col-sm-3">
+            <div class="w3l-movie-text">
+                <h3 class="text-center text-uppercase">Seansai</h3>
+                {% for session in Sessions %}
+                    {% if movie.id == session.movie_id %}
+                        <div class="col-lg-3 col-sm-3">
+                            <div class="">
+                                <p class="align-content-center"><a class="text-dark"
+                                                                   href="/session/{{ session.id }}/">{{ session.date }}
+                                </a>
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+
+        </div>
+        <div class="col-auto">
+            <div class="w3l-movie-text">
+                <h3 class="text-center text-uppercase">Aprasymas</h3>
+                <p class="text align-content-center">{{ movie.description }}</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <table class="table">
+        <tr>
+            <th>Filmo Pavadinimas:</th>
+            <td>{{ movie.title }}</td>
+        </tr>
+        <tr>
+            <th>Išleidimo data :</th>
+            <td>{{ movie.date }}</td>
+        </tr>
+        <tr>
+            <th>Filmo trukmė :</th>
+            <td>{{ movie.duration }} min</td>
+        </tr>
+        <tr>
+            <th>Reitingas :</th>
+            <td>{{ movie.rating }}</td>
+        </tr>
+    </table>
+    </div>
+{% endblock %}}
