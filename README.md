@@ -1,9 +1,12 @@
 # KizKoz Cinema
 ### Šio projekto tikslas padaryti web puslapį, kuriame būtų galima įsigyti bilietus ir juos gauti elektroniniu paštu.
 
-reikalingos programos:
+####reikalingos programos:
 
 `Django, django-paypal`
+
+###Progarmų įrašymas.
+Reikia naudoti terminalą:
 
 `python -m venv venv`
 
