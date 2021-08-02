@@ -8,3 +8,6 @@ reikalingos programos:
 `source venv/bin/activate`
 
 `pip install -r requirements.txt`
+
+Pagrindinis Puslapis:
+![alt text](https://github.com/kizas27/kizkoz-Cinema/blob/main/page.png?raw=true)
